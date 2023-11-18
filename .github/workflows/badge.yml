@@ -29,8 +29,8 @@ on:
         name:
             required: true
             type: string
-    secrets:
-        GITHUB_TOKEN:
+    # secrets:
+    #     GITHUB_TOKEN:
   
 
 jobs:
@@ -41,8 +41,8 @@ jobs:
           run: echo "##[set-output name=data;]$(date)"
         - name: Pass-Fail badge
           uses: RubbaBoy/BYOB@v1.3.0
-          env:
-            GITHUB_TOKEN: ${{ github.token }}
+        #   env:
+        #     GITHUB_TOKEN: ${{ github.token }}
           with:
             NAME: "name"
             LABEL: 'title'
@@ -51,5 +51,5 @@ jobs:
             GITHUB_TOKEN: $GITHUB_TOKEN
 
 
-            
+
             # echo "dir=$CCACHE_DIR" >> $GITHUB_OUTPUT
