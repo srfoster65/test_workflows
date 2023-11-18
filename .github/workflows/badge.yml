@@ -1,0 +1,55 @@
+name: Badge
+
+
+# jobs:
+#   badge_job:
+#     runs-on: ubuntu-latest
+#     name: Testing BYOB
+#     steps:
+#       - id: date
+#         run: echo "##[set-output name=data;]$(date)"
+#       - id: machine
+#         run: echo "##[set-output name=data;]$(hostname)"
+#       - id: size
+#         run: echo "##[set-output name=data;]$(du -sh . | sed 's/[^0-9a-zA-Z]//g')"
+#       - name: Time badge
+#         uses: RubbaBoy/BYOB@v1
+#         with:
+#           NAME: time
+#           LABEL: 'Updated at'
+#           STATUS: ${{ steps.date.outputs.data }}
+#           COLOR: 00EEFF
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+on:
+  workflow_call:
+    inputs:
+        name:
+            required: true
+            type: string
+    secrets:
+        GITHUB_TOKEN:
+  
+
+jobs:
+    badge:
+      runs-on: ubuntu-latest
+      steps:
+        - id: status
+          run: echo "##[set-output name=data;]$(date)"
+        - name: Pass-Fail badge
+          uses: RubbaBoy/BYOB@v1.3.0
+          env:
+            GITHUB_TOKEN: ${{ github.token }}
+          with:
+            NAME: "name"
+            LABEL: 'title'
+            STATUS: ${{ steps.date.outputs.data }}
+            COLOR: green
+            GITHUB_TOKEN: $GITHUB_TOKEN
+
+
+            
+            # echo "dir=$CCACHE_DIR" >> $GITHUB_OUTPUT

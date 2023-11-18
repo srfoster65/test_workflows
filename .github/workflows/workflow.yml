@@ -1,0 +1,33 @@
+name: test workflows
+
+on:
+- push
+
+jobs:
+
+    workflow_badge:
+        name: Make Badge
+        uses: ./.github/workflows/badge.yml
+
+
+    direct_badge:
+        runs-on: ubuntu-latest
+        steps:
+        -   id: date
+            run: echo "date=$(date)" >> $GITHUB_OUTPUT
+        -   id: status
+            run: echo "status=success" >> $GITHUB_OUTPUT
+
+        -   name: Pass-Fail badge
+            uses: RubbaBoy/BYOB@v1.3.0
+            env:
+                GITHUB_TOKEN: ${{ github.token }}
+            with:
+                NAME: "name"
+                LABEL: ${{ steps.date.output.data }}
+                STATUS: ${{ steps.status.outputs.data }}
+                COLOR: green
+                GITHUB_TOKEN: $GITHUB_TOKEN
+    
+    
+
